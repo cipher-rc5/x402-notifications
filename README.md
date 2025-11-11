@@ -19,36 +19,36 @@ A futuristic notification system with blockchain payments via x402 protocol, sup
 ## Setup
 
 1. **Install dependencies**:
-   ```bash
+   \`\`\`bash
    bun install
-   ```
+   \`\`\`
 
 2. **Create Turso database**:
-   ```bash
+   \`\`\`bash
    turso db create x402-notifications
    turso db show x402-notifications
-   ```
+   \`\`\`
 
 3. **Configure environment variables**:
-   ```bash
+   \`\`\`bash
    cp .env.example .env
    # Edit .env with your Turso credentials
-   ```
+   \`\`\`
 
 4. **Run database migrations**:
-   ```bash
+   \`\`\`bash
    bun run scripts/01-create-schema.sql
    bun run scripts/02-seed-data.sql
-   ```
+   \`\`\`
 
 5. **Start development server**:
-   ```bash
+   \`\`\`bash
    bun dev
-   ```
+   \`\`\`
 
 ## Project Structure
 
-```
+\`\`\`
 ├── app/
 │   ├── api/
 │   │   ├── notifications/     # Notification API routes
@@ -72,7 +72,7 @@ A futuristic notification system with blockchain payments via x402 protocol, sup
 │   └── 02-seed-data.sql       # Seed data
 ├── proxy.ts                   # Next.js 16 proxy (x402 payment gates)
 └── bunfig.toml                # Bun configuration
-```
+\`\`\`
 
 ## MCP API
 
