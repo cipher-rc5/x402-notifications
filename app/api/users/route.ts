@@ -1,57 +1,48 @@
-import { type NextRequest, NextResponse } from "next/server"
-import { turso } from "@/lib/turso"
+import { turso } from '@/lib/turso';
+import { type NextRequest, NextResponse } from 'next/server';
 
-export const runtime = "nodejs"
+export const runtime = 'nodejs';
 
 // GET /api/users/:id
 export async function GET(request: NextRequest) {
   try {
-    const searchParams = request.nextUrl.searchParams
-    const userId = searchParams.get("userId")
+    const searchParams = request.nextUrl.searchParams;
+    const userId = searchParams.get('userId');
 
     if (!userId) {
-      return NextResponse.json({ error: "userId parameter is required" }, { status: 400 })
+      return NextResponse.json({ error: 'userId parameter is required' }, { status: 400 });
     }
 
-    const result = await turso.execute({
-      sql: "SELECT * FROM users WHERE id = ?",
-      args: [userId],
-    })
+    const result = await turso.execute({ sql: 'SELECT * FROM users WHERE id = ?', args: [userId] });
 
     if (result.rows.length === 0) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 })
+      return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    return NextResponse.json({
-      success: true,
-      user: result.rows[0],
-    })
+    return NextResponse.json({ success: true, user: result.rows[0] });
   } catch (error) {
-    console.error("[v0] Error fetching user:", error)
-    return NextResponse.json({ error: "Failed to fetch user" }, { status: 500 })
+    console.error('Error fetching user:', error);
+    return NextResponse.json({ error: 'Failed to fetch user' }, { status: 500 });
   }
 }
 
 // POST /api/users - Create or update user
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-    const { userId, email, phone, preferences, walletAddress } = body
+    const body = await request.json();
+    const { userId, email, phone, preferences, walletAddress } = body;
 
     if (!userId || !email) {
-      return NextResponse.json({ error: "userId and email are required" }, { status: 400 })
+      return NextResponse.json({ error: 'userId and email are required' }, { status: 400 });
     }
 
     // Check if user exists
-    const existing = await turso.execute({
-      sql: "SELECT id FROM users WHERE id = ?",
-      args: [userId],
-    })
+    const existing = await turso.execute({ sql: 'SELECT id FROM users WHERE id = ?', args: [userId] });
 
     if (existing.rows.length > 0) {
       // Update existing user
       await turso.execute({
-        sql: `UPDATE users 
+        sql: `UPDATE users
               SET email = ?, phone = ?, preferences = ?, wallet_address = ?, updated_at = ?
               WHERE id = ?`,
         args: [
@@ -60,9 +51,9 @@ export async function POST(request: NextRequest) {
           preferences ? JSON.stringify(preferences) : null,
           walletAddress || null,
           Math.floor(Date.now() / 1000),
-          userId,
-        ],
-      })
+          userId
+        ]
+      });
     } else {
       // Create new user
       await turso.execute({
@@ -75,17 +66,14 @@ export async function POST(request: NextRequest) {
           preferences ? JSON.stringify(preferences) : null,
           walletAddress || null,
           Math.floor(Date.now() / 1000),
-          Math.floor(Date.now() / 1000),
-        ],
-      })
+          Math.floor(Date.now() / 1000)
+        ]
+      });
     }
 
-    return NextResponse.json({
-      success: true,
-      message: "User saved successfully",
-    })
+    return NextResponse.json({ success: true, message: 'User saved successfully' });
   } catch (error) {
-    console.error("[v0] Error saving user:", error)
-    return NextResponse.json({ error: "Failed to save user" }, { status: 500 })
+    console.error('Error saving user:', error);
+    return NextResponse.json({ error: 'Failed to save user' }, { status: 500 });
   }
 }

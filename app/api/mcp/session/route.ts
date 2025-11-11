@@ -1,7 +1,7 @@
-import { type NextRequest, NextResponse } from "next/server"
-import { createMCPSession } from "@/lib/mcp-server"
+import { createMCPSession } from '@/lib/mcp-server';
+import { type NextRequest, NextResponse } from 'next/server';
 
-export const runtime = "nodejs"
+export const runtime = 'nodejs';
 
 /**
  * Create new MCP session
@@ -9,23 +9,18 @@ export const runtime = "nodejs"
  */
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-    const { userId } = body
+    const body = await request.json();
+    const { userId } = body;
 
     if (!userId) {
-      return NextResponse.json({ error: "userId is required" }, { status: 400 })
+      return NextResponse.json({ error: 'userId is required' }, { status: 400 });
     }
 
-    const sessionToken = await createMCPSession(userId)
+    const sessionToken = await createMCPSession(userId);
 
-    return NextResponse.json({
-      success: true,
-      sessionToken,
-      expiresIn: 86400,
-      message: "MCP session created successfully",
-    })
+    return NextResponse.json({ success: true, sessionToken, expiresIn: 86400, message: 'MCP session created successfully' });
   } catch (error) {
-    console.error("[v0] Error creating MCP session:", error)
-    return NextResponse.json({ error: "Failed to create MCP session" }, { status: 500 })
+    console.error('Error creating MCP session:', error);
+    return NextResponse.json({ error: 'Failed to create MCP session' }, { status: 500 });
   }
 }

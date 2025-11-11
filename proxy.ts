@@ -48,14 +48,12 @@ export const config = {
 */
 
 // Temporary bypass proxy - allows direct access to all routes
-import { NextResponse } from "next/server"
-import type { NextRequest } from "next/server"
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
 export function proxy(request: NextRequest) {
-  console.log("[v0] Proxy bypassed - x402 temporarily disabled due to dependency issues")
-  return NextResponse.next()
+  console.log('Proxy bypassed - x402 temporarily disabled due to dependency issues');
+  return NextResponse.next();
 }
 
-export const config = {
-  matcher: ["/dashboard/:path*", "/analytics/:path*"],
-}
+export const config = { matcher: ['/dashboard/:path*', '/analytics/:path*'] };

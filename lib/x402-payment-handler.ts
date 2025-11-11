@@ -1,18 +1,18 @@
-import { turso } from "./turso"
+import { turso } from './turso';
 
 export interface PaymentVerification {
-  userId: string
-  transactionHash: string
-  network: "base" | "base-sepolia" | "solana-devnet" | "solana-testnet"
-  amount: string
-  resource: string
+  userId: string;
+  transactionHash: string;
+  network: 'base' | 'base-sepolia' | 'solana-devnet' | 'solana-testnet';
+  amount: string;
+  resource: string;
 }
 
 /**
  * Verify and record x402 payment in database
  */
 export async function recordPayment(verification: PaymentVerification) {
-  const paymentId = `pay-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+  const paymentId = `pay-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
   try {
     await turso.execute({
@@ -24,19 +24,19 @@ export async function recordPayment(verification: PaymentVerification) {
         verification.transactionHash,
         verification.network,
         verification.amount,
-        "USDC",
-        "confirmed",
+        'USDC',
+        'confirmed',
         verification.resource,
         Math.floor(Date.now() / 1000),
-        Math.floor(Date.now() / 1000),
-      ],
-    })
+        Math.floor(Date.now() / 1000)
+      ]
+    });
 
-    console.log("[v0] Payment recorded successfully:", paymentId)
-    return { success: true, paymentId }
+    console.log('Payment recorded successfully:', paymentId);
+    return { success: true, paymentId };
   } catch (error) {
-    console.error("[v0] Error recording payment:", error)
-    throw error
+    console.error('Error recording payment:', error);
+    throw error;
   }
 }
 
@@ -44,12 +44,9 @@ export async function recordPayment(verification: PaymentVerification) {
  * Get payment history for a user
  */
 export async function getPaymentHistory(userId: string) {
-  const result = await turso.execute({
-    sql: "SELECT * FROM payments WHERE user_id = ? ORDER BY created_at DESC LIMIT 50",
-    args: [userId],
-  })
+  const result = await turso.execute({ sql: 'SELECT * FROM payments WHERE user_id = ? ORDER BY created_at DESC LIMIT 50', args: [userId] });
 
-  return result.rows
+  return result.rows;
 }
 
 /**
@@ -57,12 +54,12 @@ export async function getPaymentHistory(userId: string) {
  */
 export async function getTotalSpent(userId: string): Promise<number> {
   const result = await turso.execute({
-    sql: `SELECT SUM(CAST(amount AS REAL)) as total 
-          FROM payments 
+    sql: `SELECT SUM(CAST(amount AS REAL)) as total
+          FROM payments
           WHERE user_id = ? AND status = 'confirmed'`,
-    args: [userId],
-  })
+    args: [userId]
+  });
 
-  const total = result.rows[0]?.total as number | null
-  return total || 0
+  const total = result.rows[0]?.total as number | null;
+  return total || 0;
 }
