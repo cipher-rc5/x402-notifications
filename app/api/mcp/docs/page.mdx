@@ -1,0 +1,147 @@
+# x402 Notification System - MCP API Documentation
+
+The Model Context Protocol (MCP) API allows AI assistants and external systems to interface with the x402 notification system.
+
+## Base URL
+
+\`\`\`
+POST /api/mcp
+\`\`\`
+
+## Authentication
+
+All methods except `createSession` require a valid session token. Include it in your request:
+
+\`\`\`json
+{
+  "method": "methodName",
+  "params": {},
+  "sessionToken": "tok-xxxxx"
+}
+\`\`\`
+
+## Available Methods
+
+### createSession
+
+Create a new MCP session for a user.
+
+**Request:**
+\`\`\`json
+{
+  "method": "createSession",
+  "params": {
+    "userId": "user-123"
+  }
+}
+\`\`\`
+
+**Response:**
+\`\`\`json
+{
+  "success": true,
+  "data": {
+    "sessionToken": "tok-xxxxx",
+    "expiresIn": 86400
+  },
+  "timestamp": 1234567890
+}
+\`\`\`
+
+### sendNotification
+
+Send a notification to a user.
+
+**Request:**
+\`\`\`json
+{
+  "method": "sendNotification",
+  "params": {
+    "userId": "user-123",
+    "email": "user@example.com",
+    "subject": "Hello",
+    "message": "Your notification message",
+    "type": "notification_system"
+  },
+  "sessionToken": "tok-xxxxx"
+}
+\`\`\`
+
+### getNotifications
+
+Get all notifications for the authenticated user.
+
+**Request:**
+\`\`\`json
+{
+  "method": "getNotifications",
+  "params": {},
+  "sessionToken": "tok-xxxxx"
+}
+\`\`\`
+
+### markNotificationRead
+
+Mark a notification as read.
+
+**Request:**
+\`\`\`json
+{
+  "method": "markNotificationRead",
+  "params": {
+    "notificationId": "notif-xxxxx"
+  },
+  "sessionToken": "tok-xxxxx"
+}
+\`\`\`
+
+### getPaymentHistory
+
+Get payment history for the authenticated user.
+
+**Request:**
+\`\`\`json
+{
+  "method": "getPaymentHistory",
+  "params": {},
+  "sessionToken": "tok-xxxxx"
+}
+\`\`\`
+
+### getTotalSpent
+
+Get total amount spent by the authenticated user.
+
+**Request:**
+\`\`\`json
+{
+  "method": "getTotalSpent",
+  "params": {},
+  "sessionToken": "tok-xxxxx"
+}
+\`\`\`
+
+### getUser
+
+Get user information.
+
+**Request:**
+\`\`\`json
+{
+  "method": "getUser",
+  "params": {},
+  "sessionToken": "tok-xxxxx"
+}
+\`\`\`
+
+## Error Handling
+
+All responses include a `success` field. If `false`, an `error` field provides details:
+
+\`\`\`json
+{
+  "success": false,
+  "error": "Invalid or expired session token",
+  "timestamp": 1234567890
+}
+\`\`\`

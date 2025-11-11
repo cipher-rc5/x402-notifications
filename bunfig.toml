@@ -1,0 +1,14 @@
+[install]
+# Use Bun's package manager
+registry = "https://registry.npmjs.org/"
+# Faster installs with concurrent downloads
+concurrent = 10
+
+[build]
+# Bun build configuration for production
+target = "bun"
+minify = true
+
+[run]
+# Bun runtime configuration
+bun = true
