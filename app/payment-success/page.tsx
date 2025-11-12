@@ -73,13 +73,13 @@ export default function PaymentSuccessPage() {
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-500/10 border-2 border-green-500/20 mb-4">
             <CheckCircle2 className="h-10 w-10 text-green-600" />
           </div>
-          <h1 className="text-4xl font-bold text-balance">Payment Successful!</h1>
-          <p className="text-xl text-muted-foreground">Your x402 payment has been confirmed</p>
+          <h1 className="text-3xl font-bold text-balance">Payment Successful!</h1>
+          <p className="text-lg text-muted-foreground">Your x402 payment has been confirmed</p>
         </div>
 
         {/* Payment Details */}
         <Card className="p-6 space-y-4 border-green-500/20 bg-green-500/5">
-          <h2 className="text-2xl font-semibold">Transaction Details</h2>
+          <h2 className="text-xl font-semibold">Transaction Details</h2>
           <div className="grid gap-3 text-sm">
             <div className="flex justify-between">
               <span className="text-muted-foreground">Amount:</span>
@@ -115,7 +115,7 @@ export default function PaymentSuccessPage() {
             </Alert>
 
             <Card className="p-6 space-y-4">
-              <h2 className="text-2xl font-semibold">Your MCP Notification Link</h2>
+              <h2 className="text-xl font-semibold">Your MCP Notification Link</h2>
               <p className="text-sm text-muted-foreground">
                 This unique endpoint allows AI assistants to send notifications and manage your account
                 programmatically.
@@ -161,7 +161,7 @@ export default function PaymentSuccessPage() {
 
             {/* Quick Setup Guide */}
             <Card className="p-6 space-y-4">
-              <h3 className="text-xl font-semibold">Quick Setup for MCP Clients</h3>
+              <h3 className="text-lg font-semibold">Quick Setup for MCP Clients</h3>
               <p className="text-sm text-muted-foreground">
                 Add this configuration to your MCP-compatible AI assistant:
               </p>
@@ -189,7 +189,7 @@ export default function PaymentSuccessPage() {
 
             {/* Next Steps */}
             <Card className="p-6 space-y-4 border-primary/20 bg-primary/5">
-              <h3 className="text-xl font-semibold">Next Steps</h3>
+              <h3 className="text-lg font-semibold">Next Steps</h3>
               <div className="space-y-3">
                 <div className="flex items-start gap-3">
                   <div className="rounded-full w-6 h-6 bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold shrink-0">
@@ -228,7 +228,7 @@ export default function PaymentSuccessPage() {
                 <Button asChild className="flex-1">
                   <Link href="/profile">View Profile</Link>
                 </Button>
-                <Button asChild variant="outline" className="flex-1">
+                <Button asChild variant="outline" className="flex-1 bg-transparent">
                   <Link href="/api/mcp/docs">
                     API Docs <ExternalLink className="ml-2 h-4 w-4" />
                   </Link>

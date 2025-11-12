@@ -65,7 +65,7 @@ export function NotificationTrigger({ userId, userEmail }: NotificationTriggerPr
     <Card className="p-6 space-y-4 border-primary/20 bg-primary/5">
       <div className="flex items-center gap-2">
         <Bell className="h-6 w-6 text-primary" />
-        <h3 className="text-xl font-semibold">Send Test Notification</h3>
+        <h3 className="text-lg font-semibold">Send Test Notification</h3>
       </div>
       <p className="text-sm text-muted-foreground">
         Trigger a notification manually to test your integration. The notification will be sent via NotificationAPI and

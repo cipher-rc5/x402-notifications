@@ -4,6 +4,7 @@ import { PaymentCard } from "@/components/payment-card"
 import { StatsCard } from "@/components/stats-card"
 import { NotificationTrigger } from "@/components/notification-trigger"
 import { CustomNotificationCreator } from "@/components/custom-notification-creator"
+import { PricingSelector } from "@/components/pricing-selector"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -17,6 +18,8 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [stats, setStats] = useState({ total: 0, unread: 0, totalSpent: 0, paymentsCount: 0 })
+  const [showPricingSelector, setShowPricingSelector] = useState(false)
+  const [pricingModel, setPricingModel] = useState<{ model: string; plan?: any } | null>(null)
 
   const userId = "test-user-1"
   const userEmail = "test@example.com"
@@ -24,6 +27,7 @@ export default function DashboardPage() {
   useEffect(() => {
     console.log("Dashboard mounted, loading data...")
     loadData()
+    loadPricingModel()
   }, [])
 
   async function loadData() {
@@ -83,6 +87,47 @@ export default function DashboardPage() {
     }
   }
 
+  async function loadPricingModel() {
+    try {
+      const response = await fetch(`/api/subscriptions?userId=${userId}`)
+      if (response.ok) {
+        const data = await response.json()
+        if (data.pricingModel) {
+          setPricingModel({
+            model: data.pricingModel.pricing_model,
+            plan: data.subscription,
+          })
+        }
+      }
+    } catch (error) {
+      console.error("Error loading pricing model:", error)
+    }
+  }
+
+  async function handlePlanSelected(model: "pay-per-use" | "subscription", planId?: string, customPrice?: number) {
+    try {
+      const response = await fetch("/api/subscriptions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId,
+          pricingModel: model,
+          planId,
+          perNotificationPrice: customPrice,
+        }),
+      })
+
+      if (response.ok) {
+        setShowPricingSelector(false)
+        loadPricingModel()
+        alert(`Successfully switched to ${model} model!`)
+      }
+    } catch (error) {
+      console.error("Error updating pricing model:", error)
+      alert("Failed to update pricing model")
+    }
+  }
+
   async function handleMarkRead(notificationId: string) {
     try {
       await fetch(`/api/notifications/${notificationId}/read`, { method: "POST" })
@@ -139,13 +184,46 @@ export default function DashboardPage() {
       <div className="container mx-auto p-6 space-y-8 max-w-7xl">
         {/* Header */}
         <div className="space-y-2">
-          <h1 className="text-4xl font-bold text-balance bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">
+          <h1 className="text-3xl font-bold text-balance bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">
             Notification Dashboard
           </h1>
           <p className="text-muted-foreground text-pretty">
             Manage your notifications and track payments across Solana and EVM networks
           </p>
         </div>
+
+        {pricingModel && (
+          <Card className="p-4 border-primary/20 bg-primary/5">
+            <div className="flex items-center justify-between">
+              <div className="space-y-1">
+                <p className="text-sm font-semibold">
+                  Current Plan:{" "}
+                  {pricingModel.model === "subscription"
+                    ? pricingModel.plan?.plan_name || "Subscription"
+                    : "Pay-Per-Use"}
+                </p>
+                {pricingModel.model === "subscription" && pricingModel.plan && (
+                  <p className="text-xs text-muted-foreground">
+                    {pricingModel.plan.notifications_used || 0} / {pricingModel.plan.notification_limit || "∞"}{" "}
+                    notifications used
+                  </p>
+                )}
+              </div>
+              <Button variant="outline" size="sm" onClick={() => setShowPricingSelector(true)}>
+                Change Plan
+              </Button>
+            </div>
+          </Card>
+        )}
+
+        {showPricingSelector && (
+          <Card className="p-6 border-2 border-primary">
+            <PricingSelector userId={userId} onPlanSelected={handlePlanSelected} />
+            <Button variant="ghost" className="w-full mt-4" onClick={() => setShowPricingSelector(false)}>
+              Cancel
+            </Button>
+          </Card>
+        )}
 
         {/* Stats Grid */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -167,13 +245,43 @@ export default function DashboardPage() {
         </div>
 
         {/* Main Content Tabs */}
-        <Tabs defaultValue="notifications" className="space-y-6">
+        <Tabs defaultValue="custom" className="space-y-6">
           <TabsList className="grid w-full max-w-2xl grid-cols-4">
+            <TabsTrigger value="custom">Custom MCP</TabsTrigger>
             <TabsTrigger value="notifications">Notifications</TabsTrigger>
             <TabsTrigger value="payments">Payments</TabsTrigger>
             <TabsTrigger value="trigger">Send</TabsTrigger>
-            <TabsTrigger value="custom">Custom MCP</TabsTrigger>
           </TabsList>
+
+          {/* Custom MCP Notifications Tab - Now First */}
+          <TabsContent value="custom" className="space-y-4">
+            <CustomNotificationCreator userId={userId} userEmail={userEmail} />
+
+            {/* MCP Integration Guide */}
+            <Card className="p-6 border-primary/20 bg-primary/5">
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <Code2 className="h-5 w-5 text-primary" />
+                  <h3 className="text-lg font-semibold text-foreground">How Custom MCP Notifications Work</h3>
+                </div>
+                <div className="text-sm text-muted-foreground space-y-2 text-pretty">
+                  <p>
+                    After purchasing a custom notification for $0.99 USDC, you'll receive a unique MCP endpoint that can
+                    be integrated with AI assistants and automation tools.
+                  </p>
+                  <ul className="list-disc list-inside space-y-1 ml-4">
+                    <li>Notifications trigger automatically based on your configured conditions</li>
+                    <li>Supports Solana Devnet and Base Sepolia Testnet for payments</li>
+                    <li>Use template variables to customize message content dynamically</li>
+                    <li>Full MCP protocol support for AI assistant integration</li>
+                  </ul>
+                </div>
+                <Button variant="outline" size="sm" asChild>
+                  <a href="/api/mcp/docs">View MCP Documentation</a>
+                </Button>
+              </div>
+            </Card>
+          </TabsContent>
 
           <TabsContent value="notifications" className="space-y-4">
             <div className="flex items-center justify-between">
@@ -219,36 +327,6 @@ export default function DashboardPage() {
 
           <TabsContent value="trigger" className="space-y-4">
             <NotificationTrigger userId={userId} userEmail={userEmail} />
-          </TabsContent>
-
-          {/* Custom MCP Notifications Tab */}
-          <TabsContent value="custom" className="space-y-4">
-            <CustomNotificationCreator userId={userId} userEmail={userEmail} />
-
-            {/* MCP Integration Guide */}
-            <Card className="p-6 border-primary/20 bg-primary/5">
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <Code2 className="h-5 w-5 text-primary" />
-                  <h3 className="text-lg font-semibold text-foreground">How Custom MCP Notifications Work</h3>
-                </div>
-                <div className="text-sm text-muted-foreground space-y-2 text-pretty">
-                  <p>
-                    After purchasing a custom notification for $0.99 USDC, you'll receive a unique MCP endpoint that can
-                    be integrated with AI assistants and automation tools.
-                  </p>
-                  <ul className="list-disc list-inside space-y-1 ml-4">
-                    <li>Notifications trigger automatically based on your configured conditions</li>
-                    <li>Supports Solana Devnet and Base Sepolia Testnet for payments</li>
-                    <li>Use template variables to customize message content dynamically</li>
-                    <li>Full MCP protocol support for AI assistant integration</li>
-                  </ul>
-                </div>
-                <Button variant="outline" size="sm" asChild>
-                  <a href="/api/mcp/docs">View MCP Documentation</a>
-                </Button>
-              </div>
-            </Card>
           </TabsContent>
         </Tabs>
       </div>

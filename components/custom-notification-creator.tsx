@@ -120,14 +120,14 @@ export function CustomNotificationCreator({ userId, userEmail }: CustomNotificat
       <div className="flex items-start justify-between">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <Sparkles className="h-6 w-6 text-primary" />
-            <h3 className="text-xl font-semibold">Create Custom Notification</h3>
+            <Sparkles className="h-5 w-5 text-primary" />
+            <h3 className="text-lg font-semibold">Create Custom Notification</h3>
           </div>
           <p className="text-sm text-muted-foreground text-pretty">
             Configure custom notifications with specific trigger conditions for your MCP endpoint.
           </p>
         </div>
-        <Badge variant="secondary" className="text-lg font-bold">
+        <Badge variant="secondary" className="text-base font-bold">
           $0.99 USDC
         </Badge>
       </div>

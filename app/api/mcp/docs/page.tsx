@@ -12,35 +12,53 @@ export default function MCPDocsPage() {
       <div className="container mx-auto px-4 py-12 max-w-6xl">
         {/* Hero Section */}
         <div className="space-y-6 mb-12">
-          <div className="flex items-center gap-3">
-            <div className="p-3 rounded-lg bg-primary/10 border border-primary/20">
-              <Code2 className="h-8 w-8 text-primary" />
+          <div className="flex items-center gap-4">
+            <div className="p-4 rounded-xl bg-primary/10 border border-primary/20">
+              <Code2 className="h-10 w-10 text-primary" />
             </div>
             <div>
-              <h1 className="text-5xl font-bold text-balance bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">
                 MCP API Documentation
               </h1>
-              <p className="text-lg text-muted-foreground mt-2">
-                Model Context Protocol for AI-powered notification systems
-              </p>
+              <p className="text-muted-foreground mt-1">Model Context Protocol for AI-powered notification systems</p>
             </div>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-3">
-            <Card className="p-4 border-primary/20 bg-primary/5">
-              <Zap className="h-6 w-6 text-primary mb-2" />
-              <h3 className="font-semibold mb-1">Real-time Notifications</h3>
-              <p className="text-sm text-muted-foreground">Send multi-channel notifications via NotificationAPI</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Card className="p-6 border-primary/20 bg-primary/5 hover:bg-primary/10 transition-colors">
+              <div className="flex items-start gap-3">
+                <div className="p-2 rounded-lg bg-primary/20">
+                  <Zap className="h-5 w-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-1">Real-time Notifications</h3>
+                  <p className="text-sm text-muted-foreground">Send multi-channel notifications via NotificationAPI</p>
+                </div>
+              </div>
             </Card>
-            <Card className="p-4 border-green-500/20 bg-green-500/5">
-              <Shield className="h-6 w-6 text-green-600 mb-2" />
-              <h3 className="font-semibold mb-1">x402 Payment Gates</h3>
-              <p className="text-sm text-muted-foreground">Protected endpoints with EVM & Solana micropayments</p>
+
+            <Card className="p-6 border-green-500/20 bg-green-500/5 hover:bg-green-500/10 transition-colors">
+              <div className="flex items-start gap-3">
+                <div className="p-2 rounded-lg bg-green-500/20">
+                  <Shield className="h-5 w-5 text-green-600" />
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-1">x402 Payment Gates</h3>
+                  <p className="text-sm text-muted-foreground">Protected endpoints with EVM & Solana micropayments</p>
+                </div>
+              </div>
             </Card>
-            <Card className="p-4 border-blue-500/20 bg-blue-500/5">
-              <Rocket className="h-6 w-6 text-blue-600 mb-2" />
-              <h3 className="font-semibold mb-1">TypeScript First</h3>
-              <p className="text-sm text-muted-foreground">Fully typed API with interactive examples</p>
+
+            <Card className="p-6 border-blue-500/20 bg-blue-500/5 hover:bg-blue-500/10 transition-colors">
+              <div className="flex items-start gap-3">
+                <div className="p-2 rounded-lg bg-blue-500/20">
+                  <Rocket className="h-5 w-5 text-blue-600" />
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-1">TypeScript First</h3>
+                  <p className="text-sm text-muted-foreground">Fully typed API with interactive examples</p>
+                </div>
+              </div>
             </Card>
           </div>
         </div>
@@ -49,7 +67,7 @@ export default function MCPDocsPage() {
         <section className="space-y-6 mb-12">
           <div className="flex items-center gap-2">
             <Book className="h-6 w-6 text-primary" />
-            <h2 className="text-3xl font-bold">Getting Started</h2>
+            <h2 className="text-2xl font-bold">Getting Started</h2>
           </div>
 
           <Alert className="border-blue-500/20 bg-blue-500/5">
@@ -90,7 +108,7 @@ const sessionToken = data.sessionToken;
 
         {/* API Methods */}
         <section className="space-y-6 mb-12">
-          <h2 className="text-3xl font-bold">API Methods</h2>
+          <h2 className="text-2xl font-bold">API Methods</h2>
 
           <Tabs defaultValue="createSession" className="space-y-4">
             <TabsList className="grid w-full grid-cols-3 lg:grid-cols-7">
@@ -107,7 +125,7 @@ const sessionToken = data.sessionToken;
             <TabsContent value="createSession" className="space-y-4">
               <Card className="p-6 space-y-4">
                 <div>
-                  <h3 className="text-2xl font-bold mb-2">createSession</h3>
+                  <h3 className="text-xl font-bold mb-2">createSession</h3>
                   <p className="text-muted-foreground">
                     Create a new MCP session for a user. Returns a session token valid for 24 hours.
                   </p>
@@ -160,7 +178,7 @@ const data = await response.json();
             <TabsContent value="sendNotification" className="space-y-4">
               <Card className="p-6 space-y-4">
                 <div>
-                  <h3 className="text-2xl font-bold mb-2">sendNotification</h3>
+                  <h3 className="text-xl font-bold mb-2">sendNotification</h3>
                   <p className="text-muted-foreground">
                     Send a notification to a user via NotificationAPI. Supports email, SMS, and in-app channels.
                   </p>
@@ -228,7 +246,7 @@ await fetch('/api/mcp', {
             <TabsContent value="getNotifications" className="space-y-4">
               <Card className="p-6 space-y-4">
                 <div>
-                  <h3 className="text-2xl font-bold mb-2">getNotifications</h3>
+                  <h3 className="text-xl font-bold mb-2">getNotifications</h3>
                   <p className="text-muted-foreground">
                     Retrieve all notifications for the authenticated user, ordered by creation date.
                   </p>
@@ -290,7 +308,7 @@ interface GetNotificationsResponse {
             <TabsContent value="markRead" className="space-y-4">
               <Card className="p-6 space-y-4">
                 <div>
-                  <h3 className="text-2xl font-bold mb-2">markNotificationRead</h3>
+                  <h3 className="text-xl font-bold mb-2">markNotificationRead</h3>
                   <p className="text-muted-foreground">
                     Mark a specific notification as read and record the timestamp.
                   </p>
@@ -326,7 +344,7 @@ await fetch('/api/mcp', {
             <TabsContent value="payments" className="space-y-4">
               <Card className="p-6 space-y-4">
                 <div>
-                  <h3 className="text-2xl font-bold mb-2">getPaymentHistory</h3>
+                  <h3 className="text-xl font-bold mb-2">getPaymentHistory</h3>
                   <p className="text-muted-foreground">
                     Retrieve x402 payment history for the authenticated user across all networks.
                   </p>
@@ -366,7 +384,7 @@ interface PaymentHistoryResponse {
             <TabsContent value="spent" className="space-y-4">
               <Card className="p-6 space-y-4">
                 <div>
-                  <h3 className="text-2xl font-bold mb-2">getTotalSpent</h3>
+                  <h3 className="text-xl font-bold mb-2">getTotalSpent</h3>
                   <p className="text-muted-foreground">
                     Calculate total amount spent by the authenticated user across all confirmed payments.
                   </p>
@@ -393,7 +411,7 @@ interface PaymentHistoryResponse {
             <TabsContent value="user" className="space-y-4">
               <Card className="p-6 space-y-4">
                 <div>
-                  <h3 className="text-2xl font-bold mb-2">getUser</h3>
+                  <h3 className="text-xl font-bold mb-2">getUser</h3>
                   <p className="text-muted-foreground">Retrieve user information for the authenticated session.</p>
                 </div>
 
@@ -427,7 +445,7 @@ interface GetUserResponse {
 
         {/* Error Handling */}
         <section className="space-y-6 mb-12">
-          <h2 className="text-3xl font-bold">Error Handling</h2>
+          <h2 className="text-2xl font-bold">Error Handling</h2>
           <Card className="p-6 space-y-4">
             <p className="text-muted-foreground">
               All responses include a <code className="px-1.5 py-0.5 rounded bg-muted text-sm">success</code> field.
@@ -467,13 +485,13 @@ interface GetUserResponse {
 
         {/* Interactive Playground */}
         <section className="space-y-6">
-          <h2 className="text-3xl font-bold">API Playground</h2>
+          <h2 className="text-2xl font-bold">API Playground</h2>
           <ApiPlayground />
         </section>
 
         {/* SDK & Integration Examples */}
         <section className="space-y-6 mt-12">
-          <h2 className="text-3xl font-bold">Integration Examples</h2>
+          <h2 className="text-2xl font-bold">Integration Examples</h2>
 
           <div className="grid gap-6 md:grid-cols-2">
             <Card className="p-6 space-y-4">

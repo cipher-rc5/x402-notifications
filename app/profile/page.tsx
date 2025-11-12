@@ -6,7 +6,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { CodeBlock } from "@/components/code-block"
-import { CheckCircle2, Copy, ExternalLink, Key, Sparkles, User, Zap } from "lucide-react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { CheckCircle2, Copy, ExternalLink, Key, Sparkles, User, Zap, Wallet } from "lucide-react"
+import { siEthereum, siSolana } from "simple-icons"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 
@@ -18,6 +20,10 @@ export default function ProfilePage() {
   const [simulating, setSimulating] = useState(false)
   const router = useRouter()
 
+  const [solanaDevnetAddress, setSolanaDevnetAddress] = useState("")
+  const [baseSepoliaAddress, setBaseSepoliaAddress] = useState("")
+  const [selectedNetwork, setSelectedNetwork] = useState<"solana-devnet" | "base-sepolia">("base-sepolia")
+
   const mcpEndpoint = typeof window !== "undefined" ? `${window.location.origin}/api/mcp` : ""
 
   useEffect(() => {
@@ -27,20 +33,47 @@ export default function ProfilePage() {
       const token = localStorage.getItem("mcp_session_token")
       setSessionToken(token)
     }
+
+    // Load saved addresses
+    const savedSolanaAddress = localStorage.getItem("solana_devnet_address")
+    const savedBaseAddress = localStorage.getItem("base_sepolia_address")
+    if (savedSolanaAddress) setSolanaDevnetAddress(savedSolanaAddress)
+    if (savedBaseAddress) setBaseSepoliaAddress(savedBaseAddress)
   }, [])
 
   const handleSimulatePayment = async () => {
+    if (selectedNetwork === "solana-devnet" && !solanaDevnetAddress) {
+      alert("Please enter your Solana Devnet address")
+      return
+    }
+    if (selectedNetwork === "base-sepolia" && !baseSepoliaAddress) {
+      alert("Please enter your Base Sepolia address")
+      return
+    }
+
     setSimulating(true)
     try {
-      // Simulate x402 payment on Base Sepolia testnet
-      const mockTxHash = `0x${Math.random().toString(16).substr(2, 64)}`
+      // Save addresses to localStorage
+      if (selectedNetwork === "solana-devnet") {
+        localStorage.setItem("solana_devnet_address", solanaDevnetAddress)
+      } else {
+        localStorage.setItem("base_sepolia_address", baseSepoliaAddress)
+      }
+
+      // Simulate x402 payment on selected network
+      const mockTxHash =
+        selectedNetwork === "solana-devnet"
+          ? `${Math.random().toString(36).substr(2, 44)}`
+          : `0x${Math.random().toString(16).substr(2, 64)}`
+
       const mockPayment = {
         userId,
         transactionHash: mockTxHash,
-        network: "base-sepolia" as const,
-        amount: "0.0001",
-        currency: "ETH", // Added required currency field
+        network: selectedNetwork,
+        amount: selectedNetwork === "solana-devnet" ? "0.99" : "0.99",
+        currency: selectedNetwork === "solana-devnet" ? "USDC" : "USDC",
         resource: "/api/mcp",
+        fromAddress: selectedNetwork === "solana-devnet" ? solanaDevnetAddress : baseSepoliaAddress,
       }
 
       console.log("[v0] Simulating x402 payment:", mockPayment)
@@ -68,7 +101,7 @@ export default function ProfilePage() {
       localStorage.setItem("x402_payment_complete", "true")
 
       // Redirect to payment success page
-      router.push(`/payment-success?txHash=${mockTxHash}&network=base-sepolia`)
+      router.push(`/payment-success?txHash=${mockTxHash}&network=${selectedNetwork}`)
     } catch (error) {
       console.error("[v0] Error simulating payment:", error)
       alert(`Payment simulation failed: ${error instanceof Error ? error.message : "Unknown error"}`)
@@ -118,27 +151,106 @@ export default function ProfilePage() {
               <User className="h-8 w-8 text-primary" />
             </div>
             <div>
-              <h1 className="text-4xl font-bold">Your MCP Profile</h1>
+              <h1 className="text-3xl font-bold">Your MCP Profile</h1>
               <p className="text-muted-foreground">Manage your notification system integration</p>
             </div>
           </div>
         </div>
 
-        {/* Payment Status */}
+        {/* Payment Status & Simulation - Enhanced with Network Selection */}
         {!sessionToken ? (
-          <Alert className="border-yellow-500/20 bg-yellow-500/5">
-            <Sparkles className="h-5 w-5 text-yellow-600" />
-            <AlertDescription className="ml-2 flex items-center justify-between">
-              <div>
+          <Card className="p-6 space-y-6 border-yellow-500/20 bg-yellow-500/5">
+            <Alert className="border-yellow-500/20 bg-yellow-500/5">
+              <Sparkles className="h-5 w-5 text-yellow-600" />
+              <AlertDescription className="ml-2">
                 <strong>Complete your first x402 payment</strong> to unlock your custom MCP endpoint for AI assistant
                 integration.
-              </div>
-              <Button onClick={handleSimulatePayment} disabled={simulating} size="sm" className="ml-4 gap-2">
+              </AlertDescription>
+            </Alert>
+
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold flex items-center gap-2">
+                <Wallet className="h-5 w-5" />
+                Simulate x402 Payment
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                Test the payment flow on either Solana Devnet or Base Sepolia Testnet. Enter your wallet address and
+                simulate a $0.99 USDC payment.
+              </p>
+
+              <Tabs value={selectedNetwork} onValueChange={(v) => setSelectedNetwork(v as typeof selectedNetwork)}>
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="base-sepolia" className="gap-2">
+                    <svg role="img" viewBox="0 0 24 24" className="h-4 w-4 fill-current">
+                      <path d={siEthereum.path} />
+                    </svg>
+                    Base Sepolia
+                  </TabsTrigger>
+                  <TabsTrigger value="solana-devnet" className="gap-2">
+                    <svg role="img" viewBox="0 0 24 24" className="h-4 w-4 fill-current">
+                      <path d={siSolana.path} />
+                    </svg>
+                    Solana Devnet
+                  </TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="base-sepolia" className="space-y-4 mt-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="base-address">Base Sepolia Address</Label>
+                    <Input
+                      id="base-address"
+                      placeholder="0x..."
+                      value={baseSepoliaAddress}
+                      onChange={(e) => setBaseSepoliaAddress(e.target.value)}
+                      className="font-mono text-sm"
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      Your Ethereum testnet address (starts with 0x). Get testnet USDC from{" "}
+                      <a
+                        href="https://faucet.circle.com/"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline hover:text-primary"
+                      >
+                        Circle Faucet
+                      </a>
+                    </p>
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="solana-devnet" className="space-y-4 mt-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="solana-address">Solana Devnet Address</Label>
+                    <Input
+                      id="solana-address"
+                      placeholder="Your Solana public key..."
+                      value={solanaDevnetAddress}
+                      onChange={(e) => setSolanaDevnetAddress(e.target.value)}
+                      className="font-mono text-sm"
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      Your Solana wallet public key. Get devnet USDC from{" "}
+                      <a
+                        href="https://spl-token-faucet.com/"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline hover:text-primary"
+                      >
+                        SPL Token Faucet
+                      </a>
+                    </p>
+                  </div>
+                </TabsContent>
+              </Tabs>
+
+              <Button onClick={handleSimulatePayment} disabled={simulating} className="w-full gap-2">
                 <Zap className="h-4 w-4" />
-                {simulating ? "Processing..." : "Simulate x402 Payment"}
+                {simulating
+                  ? "Processing Payment..."
+                  : `Simulate $0.99 USDC Payment on ${selectedNetwork === "solana-devnet" ? "Solana Devnet" : "Base Sepolia"}`}
               </Button>
-            </AlertDescription>
-          </Alert>
+            </div>
+          </Card>
         ) : (
           <Alert className="border-green-500/20 bg-green-500/5">
             <CheckCircle2 className="h-5 w-5 text-green-600" />
@@ -150,7 +262,7 @@ export default function ProfilePage() {
 
         {/* User Info */}
         <Card className="p-6 space-y-4">
-          <h2 className="text-2xl font-semibold flex items-center gap-2">
+          <h2 className="text-xl font-semibold flex items-center gap-2">
             <User className="h-6 w-6" />
             Account Details
           </h2>
@@ -170,7 +282,7 @@ export default function ProfilePage() {
         {sessionToken && (
           <>
             <Card className="p-6 space-y-4">
-              <h2 className="text-2xl font-semibold flex items-center gap-2">
+              <h2 className="text-xl font-semibold flex items-center gap-2">
                 <Key className="h-6 w-6" />
                 Your MCP Endpoint
               </h2>
@@ -202,7 +314,7 @@ export default function ProfilePage() {
 
             {/* Configuration Guide */}
             <Card className="p-6 space-y-4">
-              <h2 className="text-2xl font-semibold">MCP Configuration</h2>
+              <h2 className="text-xl font-semibold">MCP Configuration</h2>
               <p className="text-sm text-muted-foreground">
                 Add this configuration to your MCP client (e.g., Claude Desktop config file):
               </p>
@@ -237,7 +349,7 @@ export default function ProfilePage() {
 
             {/* Test Integration */}
             <Card className="p-6 space-y-4 border-primary/20 bg-primary/5">
-              <h3 className="text-xl font-semibold">Test Your Integration</h3>
+              <h3 className="text-lg font-semibold">Test Your Integration</h3>
               <p className="text-sm text-muted-foreground">
                 Try sending a test notification to verify your MCP endpoint is working:
               </p>
