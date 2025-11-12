@@ -3,11 +3,12 @@ import { NotificationCard } from "@/components/notification-card"
 import { PaymentCard } from "@/components/payment-card"
 import { StatsCard } from "@/components/stats-card"
 import { NotificationTrigger } from "@/components/notification-trigger"
+import { CustomNotificationCreator } from "@/components/custom-notification-creator"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import type { Notification, Payment } from "@/lib/turso"
-import { Activity, Bell, DollarSign, Users } from "lucide-react"
+import { Activity, Bell, DollarSign, Users, Code2 } from "lucide-react"
 import { useEffect, useState } from "react"
 
 export default function DashboardPage() {
@@ -134,12 +135,12 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-background via-background to-primary/5">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
       <div className="container mx-auto p-6 space-y-8 max-w-7xl">
         {/* Header */}
         <div className="space-y-2">
-          <h1 className="text-4xl font-bold text-balance bg-linear-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">
-            x402 Notification Dashboard
+          <h1 className="text-4xl font-bold text-balance bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">
+            Notification Dashboard
           </h1>
           <p className="text-muted-foreground text-pretty">
             Manage your notifications and track payments across Solana and EVM networks
@@ -167,10 +168,11 @@ export default function DashboardPage() {
 
         {/* Main Content Tabs */}
         <Tabs defaultValue="notifications" className="space-y-6">
-          <TabsList className="grid w-full max-w-md grid-cols-3">
+          <TabsList className="grid w-full max-w-2xl grid-cols-4">
             <TabsTrigger value="notifications">Notifications</TabsTrigger>
             <TabsTrigger value="payments">Payments</TabsTrigger>
             <TabsTrigger value="trigger">Send</TabsTrigger>
+            <TabsTrigger value="custom">Custom MCP</TabsTrigger>
           </TabsList>
 
           <TabsContent value="notifications" className="space-y-4">
@@ -218,21 +220,37 @@ export default function DashboardPage() {
           <TabsContent value="trigger" className="space-y-4">
             <NotificationTrigger userId={userId} userEmail={userEmail} />
           </TabsContent>
-        </Tabs>
 
-        {/* MCP Info Card */}
-        <Card className="p-6 border-primary/20 bg-primary/5">
-          <div className="space-y-3">
-            <h3 className="text-lg font-semibold text-foreground">MCP Integration</h3>
-            <p className="text-sm text-muted-foreground text-pretty">
-              This system supports Model Context Protocol. AI assistants can interface with notifications, payments, and
-              user data via the <code className="px-1 py-0.5 rounded bg-muted">/api/mcp</code> endpoint.
-            </p>
-            <Button variant="outline" size="sm" asChild>
-              <a href="/api/mcp/docs">View MCP Documentation</a>
-            </Button>
-          </div>
-        </Card>
+          {/* Custom MCP Notifications Tab */}
+          <TabsContent value="custom" className="space-y-4">
+            <CustomNotificationCreator userId={userId} userEmail={userEmail} />
+
+            {/* MCP Integration Guide */}
+            <Card className="p-6 border-primary/20 bg-primary/5">
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <Code2 className="h-5 w-5 text-primary" />
+                  <h3 className="text-lg font-semibold text-foreground">How Custom MCP Notifications Work</h3>
+                </div>
+                <div className="text-sm text-muted-foreground space-y-2 text-pretty">
+                  <p>
+                    After purchasing a custom notification for $0.99 USDC, you'll receive a unique MCP endpoint that can
+                    be integrated with AI assistants and automation tools.
+                  </p>
+                  <ul className="list-disc list-inside space-y-1 ml-4">
+                    <li>Notifications trigger automatically based on your configured conditions</li>
+                    <li>Supports Solana Devnet and Base Sepolia Testnet for payments</li>
+                    <li>Use template variables to customize message content dynamically</li>
+                    <li>Full MCP protocol support for AI assistant integration</li>
+                  </ul>
+                </div>
+                <Button variant="outline" size="sm" asChild>
+                  <a href="/api/mcp/docs">View MCP Documentation</a>
+                </Button>
+              </div>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   )
