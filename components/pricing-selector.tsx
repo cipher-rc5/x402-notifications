@@ -177,11 +177,11 @@ export function PricingSelector({ userId, onPlanSelected }: PricingSelectorProps
               return (
                 <label key={plan.id} htmlFor={plan.id} className="cursor-pointer">
                   <Card
-                    className={`p-6 space-y-4 transition-all ${
+                    className={`p-6 space-y-4 transition-all duration-300 relative ${
                       selectedPlan === plan.id
-                        ? "border-primary bg-primary/5 shadow-lg"
-                        : "border-border hover:border-primary/50"
-                    } ${plan.popular ? "border-primary/50" : ""}`}
+                        ? "border-[#DC1FFF] bg-[#DC1FFF]/5 backdrop-blur-sm shadow-[0_0_20px_rgba(220,31,255,0.3)] scale-[1.02]"
+                        : "border-slate-800/50 bg-slate-900/40 backdrop-blur-sm hover:border-slate-700/50 hover:bg-slate-900/60 shadow-lg"
+                    } ${plan.popular ? "border-[#DC1FFF]/50" : ""}`}
                   >
                     {plan.popular && <Badge className="absolute -top-2 left-1/2 -translate-x-1/2">Most Popular</Badge>}
 
