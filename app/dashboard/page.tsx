@@ -180,23 +180,21 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto p-6 space-y-8 max-w-7xl">
         {/* Header */}
         <div className="space-y-2">
-          <h1 className="text-3xl font-bold text-balance bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">
-            Notification Dashboard
-          </h1>
+          <h1 className="text-3xl font-bold text-foreground">Notification Dashboard</h1>
           <p className="text-muted-foreground text-pretty">
             Manage your notifications and track payments across Solana and EVM networks
           </p>
         </div>
 
         {pricingModel && (
-          <Card className="p-4 border-primary/20 bg-primary/5">
+          <Card className="p-4 bg-card/40 backdrop-blur-md border-border shadow-lg">
             <div className="flex items-center justify-between">
               <div className="space-y-1">
-                <p className="text-sm font-semibold">
+                <p className="text-sm font-semibold text-foreground">
                   Current Plan:{" "}
                   {pricingModel.model === "subscription"
                     ? pricingModel.plan?.plan_name || "Subscription"
@@ -209,7 +207,12 @@ export default function DashboardPage() {
                   </p>
                 )}
               </div>
-              <Button variant="outline" size="sm" onClick={() => setShowPricingSelector(true)}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowPricingSelector(true)}
+                className="border-border text-foreground hover:bg-muted"
+              >
                 Change Plan
               </Button>
             </div>
@@ -217,9 +220,13 @@ export default function DashboardPage() {
         )}
 
         {showPricingSelector && (
-          <Card className="p-6 border-2 border-primary">
+          <Card className="p-6 border-2 border-primary/50 bg-card/80 backdrop-blur-xl shadow-[0_20px_50px_rgba(220,31,255,0.2)]">
             <PricingSelector userId={userId} onPlanSelected={handlePlanSelected} />
-            <Button variant="ghost" className="w-full mt-4" onClick={() => setShowPricingSelector(false)}>
+            <Button
+              variant="ghost"
+              className="w-full mt-4 text-muted-foreground"
+              onClick={() => setShowPricingSelector(false)}
+            >
               Cancel
             </Button>
           </Card>
@@ -233,7 +240,7 @@ export default function DashboardPage() {
             value={stats.unread}
             icon={Activity}
             description="Requires attention"
-            className="border-yellow-500/20 bg-yellow-500/5"
+            className="border-border bg-card/50"
           />
           <StatsCard
             title="Total Spent"
@@ -246,7 +253,7 @@ export default function DashboardPage() {
 
         {/* Main Content Tabs */}
         <Tabs defaultValue="custom" className="space-y-6">
-          <TabsList className="grid w-full max-w-2xl grid-cols-4">
+          <TabsList className="grid w-full max-w-2xl grid-cols-4 bg-muted/50 border border-border">
             <TabsTrigger value="custom">Custom MCP</TabsTrigger>
             <TabsTrigger value="notifications">Notifications</TabsTrigger>
             <TabsTrigger value="payments">Payments</TabsTrigger>
@@ -258,7 +265,7 @@ export default function DashboardPage() {
             <CustomNotificationCreator userId={userId} userEmail={userEmail} />
 
             {/* MCP Integration Guide */}
-            <Card className="p-6 border-primary/20 bg-primary/5">
+            <Card className="p-6 bg-card/50 border-border backdrop-blur">
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <Code2 className="h-5 w-5 text-primary" />
@@ -276,7 +283,12 @@ export default function DashboardPage() {
                     <li>Full MCP protocol support for AI assistant integration</li>
                   </ul>
                 </div>
-                <Button variant="outline" size="sm" asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  asChild
+                  className="border-border text-foreground hover:bg-muted bg-transparent"
+                >
                   <a href="/api/mcp/docs">View MCP Documentation</a>
                 </Button>
               </div>
@@ -286,14 +298,19 @@ export default function DashboardPage() {
           <TabsContent value="notifications" className="space-y-4">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-semibold text-foreground">Recent Notifications</h2>
-              <Button onClick={loadData} variant="outline" size="sm">
+              <Button
+                onClick={loadData}
+                variant="outline"
+                size="sm"
+                className="border-border text-foreground hover:bg-muted bg-transparent"
+              >
                 Refresh
               </Button>
             </div>
 
             <div className="space-y-3">
               {notifications.length === 0 ? (
-                <Card className="p-12 text-center border-dashed">
+                <Card className="p-12 text-center border-dashed bg-card/50 border-border">
                   <Bell className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
                   <p className="text-muted-foreground">No notifications yet</p>
                 </Card>
@@ -308,14 +325,19 @@ export default function DashboardPage() {
           <TabsContent value="payments" className="space-y-4">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-semibold text-foreground">Payment History</h2>
-              <Button onClick={loadData} variant="outline" size="sm">
+              <Button
+                onClick={loadData}
+                variant="outline"
+                size="sm"
+                className="border-border text-foreground hover:bg-muted bg-transparent"
+              >
                 Refresh
               </Button>
             </div>
 
             <div className="space-y-3">
               {payments.length === 0 ? (
-                <Card className="p-12 text-center border-dashed">
+                <Card className="p-12 text-center border-dashed bg-card/50 border-border">
                   <DollarSign className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
                   <p className="text-muted-foreground">No payments yet</p>
                 </Card>
