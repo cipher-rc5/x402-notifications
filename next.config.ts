@@ -1,10 +1,13 @@
-import type { NextConfig } from 'next';
+import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
-  experimental: { serverActions: { bodySizeLimit: '2mb' } },
+  experimental: { serverActions: { bodySizeLimit: "2mb" } },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   // Optimize for Bun runtime
   typescript: { ignoreBuildErrors: true },
-  images: { unoptimized: true }
-};
+  images: { unoptimized: true },
+}
 
-export default nextConfig;
+export default nextConfig

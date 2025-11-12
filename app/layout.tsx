@@ -1,12 +1,16 @@
-import { Analytics } from '@vercel/analytics/next';
-import { type Metadata } from 'next';
-import type React from 'react';
-import './globals.css';
-import { ThemeProvider } from '@/components/theme-provider';
-import { Geist, Geist_Mono, Source_Serif_4 } from 'next/font/google';
-import Navigation from './navigation';
+import { Analytics } from "@vercel/analytics/next"
+import type { Metadata } from "next"
+import type React from "react"
+import "./globals.css"
+import { ThemeProvider } from "@/components/theme-provider"
 
-const _sourceSerif_4 = Source_Serif_4({ subsets: ['latin'], weight: ["200","300","400","500","600","700","800","900"] })
+import Navigation from "./navigation"
+import { Geist, Geist_Mono, Geist as V0_Font_Geist, Geist_Mono as V0_Font_Geist_Mono, Source_Serif_4 as V0_Font_Source_Serif_4 } from 'next/font/google'
+
+// Initialize fonts
+const _geist = V0_Font_Geist({ subsets: ['latin'], weight: ["100","200","300","400","500","600","700","800","900"] })
+const _geistMono = V0_Font_Geist_Mono({ subsets: ['latin'], weight: ["100","200","300","400","500","600","700","800","900"] })
+const _sourceSerif_4 = V0_Font_Source_Serif_4({ subsets: ['latin'], weight: ["200","300","400","500","600","700","800","900"] })
 
 const geistSans = Geist({
   subsets: ["latin"],
