@@ -126,19 +126,19 @@ export function PricingSelector({ userId, onPlanSelected }: PricingSelectorProps
                 <p className="text-sm font-semibold">Benefits:</p>
                 <ul className="text-sm text-muted-foreground space-y-1">
                   <li className="flex items-start gap-2">
-                    <Check className="h-4 w-4 text-green-600 mt-0.5 shrink-0" />
+                    <Check className="h-4 w-4 text-[#03E1FF] mt-0.5 shrink-0" />
                     <span>No monthly commitment</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <Check className="h-4 w-4 text-green-600 mt-0.5 shrink-0" />
+                    <Check className="h-4 w-4 text-[#03E1FF] mt-0.5 shrink-0" />
                     <span>Pay only for what you use</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <Check className="h-4 w-4 text-green-600 mt-0.5 shrink-0" />
+                    <Check className="h-4 w-4 text-[#03E1FF] mt-0.5 shrink-0" />
                     <span>Micro-payment via x402 protocol</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <Check className="h-4 w-4 text-green-600 mt-0.5 shrink-0" />
+                    <Check className="h-4 w-4 text-[#03E1FF] mt-0.5 shrink-0" />
                     <span>Works on Solana & EVM networks</span>
                   </li>
                 </ul>
@@ -211,7 +211,7 @@ export function PricingSelector({ userId, onPlanSelected }: PricingSelectorProps
                     <ul className="space-y-2">
                       {plan.features.map((feature, idx) => (
                         <li key={idx} className="flex items-start gap-2 text-sm">
-                          <Check className="h-4 w-4 text-green-600 mt-0.5 shrink-0" />
+                          <Check className="h-4 w-4 text-[#03E1FF] mt-0.5 shrink-0" />
                           <span className="text-muted-foreground">{feature}</span>
                         </li>
                       ))}

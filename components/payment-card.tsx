@@ -12,10 +12,10 @@ interface PaymentCardProps {
 export function PaymentCard({ payment }: PaymentCardProps) {
   const getNetworkColor = () => {
     if (payment.network.includes("base")) {
-      return "bg-blue-500/10 text-blue-500 border-blue-500/20"
+      return "bg-[#03E1FF]/10 text-[#03E1FF] border-[#03E1FF]/20"
     }
     if (payment.network.includes("solana")) {
-      return "bg-purple-500/10 text-purple-500 border-purple-500/20"
+      return "bg-[#DC1FFF]/10 text-[#DC1FFF] border-[#DC1FFF]/20"
     }
     return "bg-muted text-muted-foreground"
   }
@@ -52,7 +52,7 @@ export function PaymentCard({ payment }: PaymentCardProps) {
           className={cn(
             "rounded-full p-2 border",
             payment.status === "confirmed"
-              ? "bg-green-500/10 text-green-500 border-green-500/20"
+              ? "bg-[#00FFA3]/10 text-[#00FFA3] border-[#00FFA3]/20"
               : "bg-yellow-500/10 text-yellow-500 border-yellow-500/20",
           )}
         >

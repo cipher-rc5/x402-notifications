@@ -2,29 +2,17 @@
 
 export function NotificationFlowDiagram() {
   return (
-    <div className="relative py-16 px-4 bg-gradient-to-b from-background to-muted/20 rounded-lg border border-border/50">
+    <div className="relative py-16 px-4">
       <div className="max-w-6xl mx-auto">
-        <h3 className="text-xl font-semibold mb-12 text-center">How It Works</h3>
+        <h3 className="text-xl font-semibold mb-12 text-center text-foreground">How It Works</h3>
 
         <div className="relative flex items-start justify-between gap-8">
-          {/* Connecting line */}
-          <svg className="absolute top-16 left-0 w-full h-32 -z-0" style={{ transform: "translateY(-50%)" }}>
-            <path
-              d="M 80 0 Q 200 60, 320 0 Q 440 -60, 560 0 Q 680 60, 800 0"
-              stroke="hsl(var(--primary))"
-              strokeWidth="2"
-              fill="none"
-              opacity="0.3"
-              className="animate-pulse"
-            />
-          </svg>
-
-          {/* Step 1: Pay Once */}
+          {/* Step 1 */}
           <div className="flex flex-col items-center text-center space-y-4 flex-1 relative z-10">
             <div className="relative">
-              <div className="absolute inset-0 bg-orange-500/20 rounded-full blur-xl animate-pulse" />
-              <div className="relative rounded-full w-20 h-20 bg-background border-2 border-orange-500/60 flex items-center justify-center shadow-lg">
-                <svg className="h-10 w-10 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="absolute inset-0 bg-[#03E1FF]/20 rounded-full blur-xl animate-pulse" />
+              <div className="relative rounded-full w-20 h-20 bg-background border-2 border-[#03E1FF]/60 flex items-center justify-center shadow-lg">
+                <svg className="h-10 w-10 text-[#03E1FF]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -35,20 +23,20 @@ export function NotificationFlowDiagram() {
               </div>
             </div>
             <div className="space-y-2">
-              <p className="font-semibold text-orange-500">1. Pay Once</p>
-              <p className="text-sm text-muted-foreground max-w-[140px]">Configure with user-defined pricing</p>
+              <p className="font-semibold text-[#03E1FF]">1. Choose Pricing</p>
+              <p className="text-sm text-muted-foreground max-w-[140px]">Pay-per-use or subscription</p>
             </div>
           </div>
 
-          {/* Step 2: Get MCP Endpoint */}
+          {/* Step 2 */}
           <div className="flex flex-col items-center text-center space-y-4 flex-1 relative z-10">
             <div className="relative">
               <div
-                className="absolute inset-0 bg-orange-500/20 rounded-full blur-xl animate-pulse"
+                className="absolute inset-0 bg-[#03E1FF]/20 rounded-full blur-xl animate-pulse"
                 style={{ animationDelay: "0.5s" }}
               />
-              <div className="relative rounded-full w-20 h-20 bg-background border-2 border-orange-500/60 flex items-center justify-center shadow-lg">
-                <svg className="h-10 w-10 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="relative rounded-full w-20 h-20 bg-background border-2 border-[#03E1FF]/60 flex items-center justify-center shadow-lg">
+                <svg className="h-10 w-10 text-[#03E1FF]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -59,39 +47,39 @@ export function NotificationFlowDiagram() {
               </div>
             </div>
             <div className="space-y-2">
-              <p className="font-semibold text-orange-500">2. Get MCP Endpoint</p>
+              <p className="font-semibold text-[#03E1FF]">2. Get MCP Endpoint</p>
               <p className="text-sm text-muted-foreground max-w-[140px]">Unique URL for AI assistants</p>
             </div>
           </div>
 
-          {/* Step 3: Set Conditions */}
+          {/* Step 3 */}
           <div className="flex flex-col items-center text-center space-y-4 flex-1 relative z-10">
             <div className="relative">
               <div
-                className="absolute inset-0 bg-orange-500/20 rounded-full blur-xl animate-pulse"
+                className="absolute inset-0 bg-[#03E1FF]/20 rounded-full blur-xl animate-pulse"
                 style={{ animationDelay: "1s" }}
               />
-              <div className="relative rounded-full w-20 h-20 bg-background border-2 border-orange-500/60 flex items-center justify-center shadow-lg">
-                <svg className="h-10 w-10 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="relative rounded-full w-20 h-20 bg-background border-2 border-[#03E1FF]/60 flex items-center justify-center shadow-lg">
+                <svg className="h-10 w-10 text-[#03E1FF]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
             </div>
             <div className="space-y-2">
-              <p className="font-semibold text-orange-500">3. Set Conditions</p>
+              <p className="font-semibold text-[#03E1FF]">3. Set Conditions</p>
               <p className="text-sm text-muted-foreground max-w-[140px]">Define triggers & thresholds</p>
             </div>
           </div>
 
-          {/* Step 4: Receive Alerts */}
+          {/* Step 4 */}
           <div className="flex flex-col items-center text-center space-y-4 flex-1 relative z-10">
             <div className="relative">
               <div
-                className="absolute inset-0 bg-orange-500/20 rounded-full blur-xl animate-pulse"
+                className="absolute inset-0 bg-[#03E1FF]/20 rounded-full blur-xl animate-pulse"
                 style={{ animationDelay: "1.5s" }}
               />
-              <div className="relative rounded-full w-20 h-20 bg-background border-2 border-orange-500/60 flex items-center justify-center shadow-lg">
-                <svg className="h-10 w-10 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="relative rounded-full w-20 h-20 bg-background border-2 border-[#03E1FF]/60 flex items-center justify-center shadow-lg">
+                <svg className="h-10 w-10 text-[#03E1FF]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -102,7 +90,7 @@ export function NotificationFlowDiagram() {
               </div>
             </div>
             <div className="space-y-2">
-              <p className="font-semibold text-orange-500">4. Receive Alerts</p>
+              <p className="font-semibold text-[#03E1FF]">4. Receive Alerts</p>
               <p className="text-sm text-muted-foreground max-w-[140px]">Multi-channel delivery</p>
             </div>
           </div>
