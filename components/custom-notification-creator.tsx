@@ -120,7 +120,7 @@ export function CustomNotificationCreator({ userId, userEmail }: CustomNotificat
       <div className="flex items-start justify-between">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-primary" />
+            <Sparkles className="h-5 w-5 text-[#03E1FF]" />
             <h3 className="text-lg font-semibold">Create Custom Notification</h3>
           </div>
           <p className="text-sm text-muted-foreground text-pretty">
