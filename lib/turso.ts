@@ -1,18 +1,12 @@
 import { createClient } from '@libsql/client';
+import { requireEnv } from './runtime-env';
 
-if (!process.env.TURSO_DATABASE_URL) {
-  console.error('TURSO_DATABASE_URL environment variable is missing');
-  throw new Error('TURSO_DATABASE_URL environment variable is required. Please add it in the Vars section of the sidebar.');
-}
+const TURSO_DATABASE_URL = requireEnv('TURSO_DATABASE_URL');
+const TURSO_AUTH_TOKEN = requireEnv('TURSO_AUTH_TOKEN');
 
-if (!process.env.TURSO_AUTH_TOKEN) {
-  console.error('TURSO_AUTH_TOKEN environment variable is missing');
-  throw new Error('TURSO_AUTH_TOKEN environment variable is required. Please add it in the Vars section of the sidebar.');
-}
+console.log('Initializing Turso client with URL:', TURSO_DATABASE_URL.substring(0, 30) + '...');
 
-console.log('Initializing Turso client with URL:', process.env.TURSO_DATABASE_URL.substring(0, 30) + '...');
-
-export const turso = createClient({ url: process.env.TURSO_DATABASE_URL, authToken: process.env.TURSO_AUTH_TOKEN });
+export const turso = createClient({ url: TURSO_DATABASE_URL, authToken: TURSO_AUTH_TOKEN });
 
 console.log('Turso client initialized successfully');
 

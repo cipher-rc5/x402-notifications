@@ -1,6 +1,8 @@
-# x402 Notification System
+# x402-notifications
 
-A futuristic notification system with blockchain payments via x402 protocol, supporting both Solana and EVM testnets, integrated with NotificationAPI.com and Turso database, with MCP endpoint support for AI assistants.
+Notification system with blockchain payments via x402 protocol, supporting both Solana and EVM testnets, integrated with NotificationAPI.com and Turso database, with MCP endpoint support for AI assistants.
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/cipher-rc5/x402-notifications)
 
 ## Features
 
@@ -12,43 +14,43 @@ A futuristic notification system with blockchain payments via x402 protocol, sup
 
 ## Prerequisites
 
-- [Bun](https://bun.sh) installed
+- [Bun](https://bun.sh) >= 1.3 installed (project bootstraps via Bun APIs only)
 - [Turso CLI](https://docs.turso.tech/cli/installation) installed
 - NotificationAPI account (credentials provided)
 
 ## Setup
 
 1. **Install dependencies**:
-   \`\`\`bash
+   ```bash
    bun install
-   \`\`\`
+   ```
 
 2. **Create Turso database**:
-   \`\`\`bash
+   ```bash
    turso db create x402-notifications
    turso db show x402-notifications
-   \`\`\`
+   ```
 
 3. **Configure environment variables**:
-   \`\`\`bash
+   ```bash
    cp .env.example .env
    # Edit .env with your Turso credentials
-   \`\`\`
+   ```
 
 4. **Run database migrations**:
-   \`\`\`bash
+   ```bash
    bun run scripts/01-create-schema.sql
    bun run scripts/02-seed-data.sql
-   \`\`\`
+   ```
 
 5. **Start development server**:
-   \`\`\`bash
+   ```bash
    bun dev
-   \`\`\`
+   ```
 
 ## Project Structure
 
-\`\`\`
+```md
 ├── app/
 │   ├── api/
 │   │   ├── notifications/     # Notification API routes
@@ -72,7 +74,7 @@ A futuristic notification system with blockchain payments via x402 protocol, sup
 │   └── 02-seed-data.sql       # Seed data
 ├── proxy.ts                   # Next.js 16 proxy (x402 payment gates)
 └── bunfig.toml                # Bun configuration
-\`\`\`
+```
 
 ## MCP API
 

@@ -8,7 +8,7 @@ export const runtime = "nodejs"
 import { paymentMiddleware } from "x402-next"
 
 export const proxy = paymentMiddleware(
-  process.env.X402_PAYMENT_ADDRESS || "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+  runtimeEnv.X402_PAYMENT_ADDRESS || "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
   {
     "/dashboard": {
       price: "$0.01",
@@ -47,12 +47,14 @@ export const config = {
 }
 */
 
-// Temporary bypass proxy - allows direct access to all routes
+import { runtimeEnv } from '@/lib/runtime-env';
 import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { type NextRequest } from 'next/server';
+
+const paymentAddress = runtimeEnv.X402_PAYMENT_ADDRESS || '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb';
 
 export function proxy(request: NextRequest) {
-  console.log('Proxy bypassed - x402 temporarily disabled due to dependency issues');
+  console.log('Proxy bypassed - x402 temporarily disabled due to dependency issues', { paymentAddress });
   return NextResponse.next();
 }
 

@@ -2,7 +2,6 @@
  * MCP (Model Context Protocol) Server for Notification System
  * Allows AI assistants to interface with the notification system
  */
-
 import { getUserNotifications, sendNotification } from './notification-service';
 import { turso } from './turso';
 import { getPaymentHistory, getTotalSpent } from './x402-payment-handler';
