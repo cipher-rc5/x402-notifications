@@ -39,6 +39,7 @@ export default function ProfilePage() {
         transactionHash: mockTxHash,
         network: "base-sepolia" as const,
         amount: "0.0001",
+        currency: "ETH", // Added required currency field
         resource: "/api/mcp",
       }
 
@@ -52,7 +53,9 @@ export default function ProfilePage() {
       })
 
       if (!paymentResponse.ok) {
-        throw new Error("Failed to record payment")
+        const errorData = await paymentResponse.json()
+        console.error("[v0] Payment API error:", errorData)
+        throw new Error(errorData.error || "Failed to record payment")
       }
 
       const paymentData = await paymentResponse.json()
@@ -67,8 +70,8 @@ export default function ProfilePage() {
       // Redirect to payment success page
       router.push(`/payment-success?txHash=${mockTxHash}&network=base-sepolia`)
     } catch (error) {
-      console.error("Error simulating payment:", error)
-      alert("Payment simulation failed. Check console for details.")
+      console.error("[v0] Error simulating payment:", error)
+      alert(`Payment simulation failed: ${error instanceof Error ? error.message : "Unknown error"}`)
     } finally {
       setSimulating(false)
     }
