@@ -1,12 +1,10 @@
 import { Analytics } from '@vercel/analytics/next';
-import type { Metadata } from 'next';
+import { type Metadata } from 'next';
 import type React from 'react';
 import './globals.css';
-
 import { ThemeProvider } from '@/components/theme-provider';
+import { Geist as V0_Font_Geist, Geist_Mono as V0_Font_Geist_Mono } from 'next/font/google';
 import Navigation from './navigation';
-
-import { Geist, Geist as V0_Font_Geist, Geist_Mono, Geist_Mono as V0_Font_Geist_Mono, Source_Serif_4 as V0_Font_Source_Serif_4 } from 'next/font/google';
 
 // Initialize fonts
 const geistSans = V0_Font_Geist({ subsets: ['latin'], variable: '--font-geist-sans', display: 'swap' });
