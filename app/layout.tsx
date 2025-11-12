@@ -6,18 +6,9 @@ import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import Navigation from './navigation';
 
-<<<<<<< HEAD
-import { Geist as V0_Font_Geist, Geist_Mono as V0_Font_Geist_Mono, Source_Serif_4 as V0_Font_Source_Serif_4 } from 'next/font/google';
-=======
-import { Geist as V0_Font_Geist, Geist_Mono as V0_Font_Geist_Mono, Source_Serif_4 as V0_Font_Source_Serif_4 } from 'next/font/google'
-import { Geist, Geist_Mono, Geist as V0_Font_Geist, Geist_Mono as V0_Font_Geist_Mono, Source_Serif_4 as V0_Font_Source_Serif_4 } from 'next/font/google'
->>>>>>> c4c7d47480834902da57551b440c32686d7eda07
+import { Geist, Geist as V0_Font_Geist, Geist_Mono, Geist_Mono as V0_Font_Geist_Mono, Source_Serif_4 as V0_Font_Source_Serif_4 } from 'next/font/google';
 
 // Initialize fonts
-const _geist = V0_Font_Geist({ subsets: ['latin'], weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'] });
-const _geistMono = V0_Font_Geist_Mono({ subsets: ['latin'], weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'] });
-const _sourceSerif_4 = V0_Font_Source_Serif_4({ subsets: ['latin'], weight: ['200', '300', '400', '500', '600', '700', '800', '900'] });
-
 const geistSans = V0_Font_Geist({ subsets: ['latin'], variable: '--font-geist-sans', display: 'swap' });
 
 const geistMono = V0_Font_Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono', display: 'swap' });
