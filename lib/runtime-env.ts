@@ -1,10 +1,9 @@
 type EnvRecord = Record<string, string | undefined>;
 
-if (typeof Bun === 'undefined' || !Bun.env) {
-  throw new Error('Bun runtime is required to access runtime environment variables.');
-}
-
-const sourceEnv: EnvRecord = Bun.env;
+// Support both Bun.env (local/Bun runtime) and process.env (Vercel/Node.js compatibility)
+const sourceEnv: EnvRecord = typeof Bun !== 'undefined' && Bun.env
+  ? Bun.env
+  : process.env;
 
 export const runtimeEnv: EnvRecord = sourceEnv;
 
