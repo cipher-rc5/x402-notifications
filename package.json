@@ -8,7 +8,7 @@
   "scripts": {
     "build": "bunx --bun next build",
     "dev": "bunx --bun next dev",
-    "lint": "bunx eslint .",
+    "lint": "bunx --bun next lint",
     "start": "bunx --bun next start"
   },
   "dependencies": {
