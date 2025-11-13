@@ -22,8 +22,7 @@ function resolvePaymentAddress() {
 }
 
 const paymentAddress = resolvePaymentAddress();
-
-export const proxy = paymentMiddleware(
+const paymentProxy = paymentMiddleware(
   paymentAddress,
   {
     '/dashboard': {
@@ -46,4 +45,6 @@ export const proxy = paymentMiddleware(
   { appName: 'x402 Notification System', appLogo: '/icon.svg' }
 );
 
+export const proxy = paymentProxy;
+export default paymentProxy;
 export const config = { matcher: ['/dashboard/:path*', '/analytics/:path*', '/api/notifications/send'] };
