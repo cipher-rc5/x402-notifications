@@ -14,9 +14,7 @@ function resolvePaymentAddress() {
     try {
       return getAddress(configuredAddress);
     } catch {
-      console.warn(
-        `Invalid X402 payment address "${configuredAddress}" provided via X402_PAYMENT_ADDRESS. Falling back to default.`,
-      );
+      console.warn(`Invalid X402 payment address "${configuredAddress}" provided via X402_PAYMENT_ADDRESS. Falling back to default.`);
     }
   }
 
@@ -31,35 +29,21 @@ export const proxy = paymentMiddleware(
     '/dashboard': {
       price: '$0.01',
       network: 'base-sepolia',
-      config: {
-        description: 'Access to x402 Notification Dashboard',
-        maxTimeoutSeconds: 120
-      }
+      config: { description: 'Access to x402 Notification Dashboard', maxTimeoutSeconds: 120 }
     },
     '/api/notifications/send': {
       price: '$0.005',
       network: 'base-sepolia',
-      config: {
-        description: 'Send custom notification',
-        maxTimeoutSeconds: 60
-      }
+      config: { description: 'Send custom notification', maxTimeoutSeconds: 60 }
     },
     '/analytics': {
       price: '$0.02',
       network: 'base-sepolia',
-      config: {
-        description: 'Access to notification analytics',
-        maxTimeoutSeconds: 120
-      }
+      config: { description: 'Access to notification analytics', maxTimeoutSeconds: 120 }
     }
   },
   undefined,
-  {
-    appName: 'x402 Notification System',
-    appLogo: '/icon.svg'
-  }
+  { appName: 'x402 Notification System', appLogo: '/icon.svg' }
 );
 
-export const config = {
-  matcher: ['/dashboard/:path*', '/analytics/:path*', '/api/notifications/send']
-};
+export const config = { matcher: ['/dashboard/:path*', '/analytics/:path*', '/api/notifications/send'] };

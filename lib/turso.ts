@@ -60,7 +60,7 @@ export interface MCPSession {
 export async function verifyConnection() {
   try {
     console.log('Verifying Turso connection...');
-    const result = await turso.execute('SELECT 1 as test');
+    const result = await turso.execute({ sql: 'SELECT 1 as test', args: [] });
     console.log('Connection verified successfully:', result);
     return true;
   } catch (error) {
@@ -72,11 +72,12 @@ export async function verifyConnection() {
 export async function verifyTables() {
   try {
     console.log('Checking if tables exist...');
-    const result = await turso.execute(`
-      SELECT name FROM sqlite_master
-      WHERE type='table'
-      ORDER BY name
-    `);
+    const result = await turso.execute({
+      sql: `SELECT name FROM sqlite_master
+            WHERE type='table'
+            ORDER BY name`,
+      args: []
+    });
     console.log('Existing tables:', result.rows.map((r) => r.name));
     return result.rows;
   } catch (error) {
