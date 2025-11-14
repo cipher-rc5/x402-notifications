@@ -1,24 +1,29 @@
 // Next.js 16+ proxy (formerly middleware) for x402 payments
 import { runtimeEnv } from '@/lib/runtime-env';
-import { getAddress } from 'viem';
+import { getAddress, isAddress } from 'viem';
 import { paymentMiddleware } from 'x402-next';
 
 export const runtime = 'nodejs';
 
-const DEFAULT_PAYMENT_ADDRESS = '0x1111111111111111111111111111111111111111';
+const FALLBACK_PAYMENT_ADDRESS = '0x1111111111111111111111111111111111111111';
+const FALLBACK_CHECKSUM_ADDRESS = getAddress(FALLBACK_PAYMENT_ADDRESS);
 
 function resolvePaymentAddress() {
-  const configuredAddress = runtimeEnv.X402_PAYMENT_ADDRESS;
+  const configuredAddress = runtimeEnv.X402_PAYMENT_ADDRESS?.trim();
 
-  if (configuredAddress) {
-    try {
-      return getAddress(configuredAddress);
-    } catch {
-      console.warn(`Invalid X402 payment address "${configuredAddress}" provided via X402_PAYMENT_ADDRESS. Falling back to default.`);
-    }
+  if (!configuredAddress) {
+    return FALLBACK_CHECKSUM_ADDRESS;
   }
 
-  return getAddress(DEFAULT_PAYMENT_ADDRESS);
+  if (!isAddress(configuredAddress, { strict: false })) {
+    console.warn(
+      `Invalid X402 payment address "${configuredAddress}" provided via X402_PAYMENT_ADDRESS. ` +
+        'It must be a 20-byte hex string (40 hex characters). Falling back to the default address.'
+    );
+    return FALLBACK_CHECKSUM_ADDRESS;
+  }
+
+  return getAddress(configuredAddress);
 }
 
 const paymentAddress = resolvePaymentAddress();
