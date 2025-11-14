@@ -97,7 +97,7 @@ export function CustomNotificationCreator({ userId, userEmail }: CustomNotificat
   };
 
   return (
-    <Card className='p-6 space-y-6 border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10'>
+    <Card className='p-6 space-y-6 border-primary/20 bg-linear-to-br from-primary/5 to-primary/10'>
       <div className='flex items-start justify-between'>
         <div className='space-y-1'>
           <div className='flex items-center gap-2'>

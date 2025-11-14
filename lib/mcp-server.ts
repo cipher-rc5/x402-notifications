@@ -118,6 +118,19 @@ async function handleCreateSession(params: Record<string, any>): Promise<MCPResp
     return { success: false, error: 'userId is required', timestamp: Date.now() };
   }
 
+  // Ensure user exists before creating session (fixes foreign key constraint)
+  const userCheck = await turso.execute({ sql: 'SELECT id FROM users WHERE id = ?', args: [userId] });
+  
+  if (userCheck.rows.length === 0) {
+    // Create a minimal user record if it doesn't exist
+    // Use userId as email placeholder if no email provided
+    const email = params.email || `${userId}@user.local`;
+    await turso.execute({
+      sql: `INSERT INTO users (id, email, created_at, updated_at) VALUES (?, ?, ?, ?)`,
+      args: [userId, email, Math.floor(Date.now() / 1000), Math.floor(Date.now() / 1000)]
+    });
+  }
+
   const token = await createMCPSession(userId);
   return { success: true, data: { sessionToken: token, expiresIn: 86400 }, timestamp: Math.floor(Date.now() / 1000) };
 }

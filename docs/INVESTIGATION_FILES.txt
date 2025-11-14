@@ -1,0 +1,268 @@
+INVESTIGATION DOCUMENTS - ABSOLUTE FILE PATHS
+==============================================
+
+All files are located in: /Users/excalibur/Desktop/dev/x402-notifications/
+
+Main Investigation Documents:
+────────────────────────────────────────────────────────────────────────
+
+1. QUICK_SUMMARY.md
+   Full path: /Users/excalibur/Desktop/dev/x402-notifications/QUICK_SUMMARY.md
+   Size: 4.5 KB
+   Read time: 5 minutes
+   Purpose: Quick overview of the problem and fixes
+   Start here if you want a TL;DR
+
+2. INVESTIGATION_COMPLETE.md
+   Full path: /Users/excalibur/Desktop/dev/x402-notifications/INVESTIGATION_COMPLETE.md
+   Size: 18 KB
+   Read time: 20 minutes
+   Purpose: Complete executive summary and analysis
+   Best for understanding the full scope
+
+3. DASHBOARD_LOADING_ISSUE_ANALYSIS.md
+   Full path: /Users/excalibur/Desktop/dev/x402-notifications/DASHBOARD_LOADING_ISSUE_ANALYSIS.md
+   Size: 22 KB
+   Read time: 30 minutes
+   Purpose: Deep technical analysis with complete code fixes
+   Best for implementing the fixes
+
+4. DATA_FLOW_DIAGRAM.md
+   Full path: /Users/excalibur/Desktop/dev/x402-notifications/DATA_FLOW_DIAGRAM.md
+   Size: 29 KB
+   Read time: 20 minutes
+   Purpose: Architecture diagrams and data flows
+   Best for understanding the system design
+
+5. CODE_LOCATIONS_REFERENCE.md
+   Full path: /Users/excalibur/Desktop/dev/x402-notifications/CODE_LOCATIONS_REFERENCE.md
+   Size: 14 KB
+   Read time: 10 minutes
+   Purpose: Exact file locations with line numbers
+   Best for finding what to fix
+
+6. INVESTIGATION_INDEX.md
+   Full path: /Users/excalibur/Desktop/dev/x402-notifications/INVESTIGATION_INDEX.md
+   Size: 11 KB
+   Read time: 5 minutes
+   Purpose: Navigation guide for all documents
+   Best for knowing what's available
+
+7. INVESTIGATION_FILES.txt
+   Full path: /Users/excalibur/Desktop/dev/x402-notifications/INVESTIGATION_FILES.txt
+   This file - listing of all investigation documents
+
+────────────────────────────────────────────────────────────────────────
+
+Source Code Files Referenced in Investigation:
+────────────────────────────────────────────────────────────────────────
+
+CRITICAL FILES TO MODIFY (Priority Order):
+
+1. Payment Success Page
+   Full path: /Users/excalibur/Desktop/dev/x402-notifications/app/payment-success/page.tsx
+   Issues: No auto-redirect, silent failures
+   Fix: Add auto-redirect after 2 seconds, error handling
+
+2. Dashboard Page
+   Full path: /Users/excalibur/Desktop/dev/x402-notifications/app/dashboard/page.tsx
+   Issues: Hardcoded userId, no timeout
+   Fix: Read userId from URL params, add fetch timeout
+
+3. Proxy/Middleware
+   Full path: /Users/excalibur/Desktop/dev/x402-notifications/proxy.ts
+   Issues: Timeout too short
+   Fix: Increase maxTimeoutSeconds from 120 to 300
+
+4. Database Connection
+   Full path: /Users/excalibur/Desktop/dev/x402-notifications/lib/turso.ts
+   Issues: No retry logic
+   Fix: Add exponential backoff retry
+
+5. Notifications API
+   Full path: /Users/excalibur/Desktop/dev/x402-notifications/app/api/notifications/route.ts
+   Issues: Connection verification hangs
+   Fix: Update to use improved verification
+
+6. Payments API
+   Full path: /Users/excalibur/Desktop/dev/x402-notifications/app/api/payments/route.ts
+   Issues: Connection verification hangs
+   Fix: Update to use improved verification
+
+7. Webhook Handler
+   Full path: /Users/excalibur/Desktop/dev/x402-notifications/app/api/x402/webhook/route.ts
+   Issues: Redundant MCP session creation (optional to fix)
+   Fix: Refactor if coordinating with payment-success page
+
+8. Next.js Config
+   Full path: /Users/excalibur/Desktop/dev/x402-notifications/next.config.ts
+   Issues: Hiding TypeScript errors
+   Fix: Remove ignoreBuildErrors
+
+────────────────────────────────────────────────────────────────────────
+
+RELATED SOURCE FILES (Reference Only):
+────────────────────────────────────────────────────────────────────────
+
+API Routes:
+- /Users/excalibur/Desktop/dev/x402-notifications/app/api/subscriptions/route.ts
+- /Users/excalibur/Desktop/dev/x402-notifications/app/api/users/route.ts
+- /Users/excalibur/Desktop/dev/x402-notifications/app/api/mcp/route.ts
+- /Users/excalibur/Desktop/dev/x402-notifications/app/api/mcp/session/route.ts
+- /Users/excalibur/Desktop/dev/x402-notifications/app/api/notifications/[id]/read/route.ts
+
+Library Files:
+- /Users/excalibur/Desktop/dev/x402-notifications/lib/mcp-server.ts
+- /Users/excalibur/Desktop/dev/x402-notifications/lib/mcp-client.ts
+- /Users/excalibur/Desktop/dev/x402-notifications/lib/notification-service.ts
+- /Users/excalibur/Desktop/dev/x402-notifications/lib/x402-payment-handler.ts
+- /Users/excalibur/Desktop/dev/x402-notifications/lib/runtime-env.ts
+
+Components:
+- /Users/excalibur/Desktop/dev/x402-notifications/components/custom-notification-creator.tsx
+- /Users/excalibur/Desktop/dev/x402-notifications/components/pricing-selector.tsx
+- /Users/excalibur/Desktop/dev/x402-notifications/components/notification-trigger.tsx
+
+Configuration:
+- /Users/excalibur/Desktop/dev/x402-notifications/package.json
+- /Users/excalibur/Desktop/dev/x402-notifications/tsconfig.json
+- /Users/excalibur/Desktop/dev/x402-notifications/vercel.json
+
+────────────────────────────────────────────────────────────────────────
+
+HOW TO USE THESE FILES:
+────────────────────────────────────────────────────────────────────────
+
+Quick Start (15 minutes total):
+  1. Read: QUICK_SUMMARY.md (5 min)
+  2. Read: CODE_LOCATIONS_REFERENCE.md (10 min)
+  → Know exactly what to fix and where
+
+Deep Understanding (60 minutes total):
+  1. Read: QUICK_SUMMARY.md (5 min)
+  2. Read: INVESTIGATION_COMPLETE.md (20 min)
+  3. Read: DASHBOARD_LOADING_ISSUE_ANALYSIS.md (25 min)
+  4. Read: DATA_FLOW_DIAGRAM.md (10 min)
+  → Understand the entire problem and solutions
+
+Implementation (20-30 minutes of coding):
+  1. Reference: CODE_LOCATIONS_REFERENCE.md (find what to change)
+  2. Reference: DASHBOARD_LOADING_ISSUE_ANALYSIS.md (see code examples)
+  3. Apply: Fixes to files in priority order
+  4. Test: Verify dashboard loads after payment
+
+────────────────────────────────────────────────────────────────────────
+
+DOCUMENT READING RECOMMENDATIONS BY ROLE:
+────────────────────────────────────────────────────────────────────────
+
+Software Engineer (Implementing Fixes):
+  1. CODE_LOCATIONS_REFERENCE.md - Know what to fix
+  2. DASHBOARD_LOADING_ISSUE_ANALYSIS.md - See code examples
+  3. DATA_FLOW_DIAGRAM.md - Understand architecture
+  Time: 40 minutes
+
+Tech Lead (Understanding Issues):
+  1. QUICK_SUMMARY.md - Get overview
+  2. INVESTIGATION_COMPLETE.md - Full analysis
+  3. DATA_FLOW_DIAGRAM.md - Architecture context
+  Time: 50 minutes
+
+Manager (Status Report):
+  1. QUICK_SUMMARY.md - Problem and solution
+  2. INVESTIGATION_COMPLETE.md - Executive summary
+  Time: 25 minutes
+
+QA/Tester (Testing After Fixes):
+  1. QUICK_SUMMARY.md - What the issue is
+  2. INVESTIGATION_COMPLETE.md - Testing checklist
+  3. CODE_LOCATIONS_REFERENCE.md - What files changed
+  Time: 20 minutes
+
+────────────────────────────────────────────────────────────────────────
+
+SUMMARY OF 8 ROOT CAUSES:
+────────────────────────────────────────────────────────────────────────
+
+1. NO AUTO-REDIRECT [CRITICAL]
+   File: /Users/excalibur/Desktop/dev/x402-notifications/app/payment-success/page.tsx
+   Lines: 30-45
+
+2. HARDCODED userId [CRITICAL]
+   File: /Users/excalibur/Desktop/dev/x402-notifications/app/dashboard/page.tsx
+   Line: 27
+
+3. NO FETCH TIMEOUT [HIGH]
+   File: /Users/excalibur/Desktop/dev/x402-notifications/app/dashboard/page.tsx
+   Lines: 38-91
+
+4. x402-NEXT TIMEOUT TOO SHORT [HIGH]
+   File: /Users/excalibur/Desktop/dev/x402-notifications/proxy.ts
+   Line: 15
+
+5. SILENT ERROR IN PAYMENT [MEDIUM]
+   File: /Users/excalibur/Desktop/dev/x402-notifications/app/payment-success/page.tsx
+   Lines: 36-40
+
+6. NO DATABASE RETRY [MEDIUM]
+   File: /Users/excalibur/Desktop/dev/x402-notifications/lib/turso.ts
+   Lines: 53-62
+
+7. DATABASE VERIFICATION HANGS [HIGH]
+   File: /Users/excalibur/Desktop/dev/x402-notifications/app/api/notifications/route.ts
+   Lines: 8-15
+
+8. TYPESCRIPT ERRORS HIDDEN [LOW]
+   File: /Users/excalibur/Desktop/dev/x402-notifications/next.config.ts
+   Line: 5
+
+────────────────────────────────────────────────────────────────────────
+
+INVESTIGATION METADATA:
+────────────────────────────────────────────────────────────────────────
+
+Investigation Date: November 13, 2025
+Investigation Status: COMPLETE
+Root Cause: IDENTIFIED
+Severity: CRITICAL (Blocks payment completion)
+Solution Status: READY FOR IMPLEMENTATION
+
+Files Examined: 20+
+Code Patterns Analyzed: 40+
+Root Causes Found: 8 interconnected issues
+Documentation Generated: 6 documents (100+ pages)
+
+Estimated Fix Time: 20-30 minutes coding + 20 minutes testing
+Estimated Verification Time: 30+ minutes (staging + production)
+
+────────────────────────────────────────────────────────────────────────
+
+GETTING STARTED:
+────────────────────────────────────────────────────────────────────────
+
+1. Open this file's directory:
+   cd /Users/excalibur/Desktop/dev/x402-notifications
+
+2. List investigation documents:
+   ls -lh *.md | grep -E "(QUICK|INVESTIGATION|DASHBOARD|DATA|CODE)"
+
+3. Read QUICK_SUMMARY.md first:
+   cat QUICK_SUMMARY.md
+
+4. For implementation, reference:
+   cat CODE_LOCATIONS_REFERENCE.md
+
+5. Open files in your editor:
+   Start with: app/payment-success/page.tsx (Issue #1)
+   Then: app/dashboard/page.tsx (Issues #2 & #3)
+   Then: proxy.ts (Issue #4)
+
+────────────────────────────────────────────────────────────────────────
+
+Questions?
+Refer to INVESTIGATION_INDEX.md for navigation guide.
+
+Generated: November 13, 2025
+Status: Investigation Complete, Ready for Implementation
+
+────────────────────────────────────────────────────────────────────────

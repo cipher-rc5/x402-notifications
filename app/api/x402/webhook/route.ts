@@ -22,18 +22,19 @@ export async function POST(request: NextRequest) {
     // Record payment in database
     const payment = await recordPayment({ userId, transactionHash, network, amount, resource });
 
-    const { createMCPSession } = await import('@/lib/mcp-server');
-    const sessionToken = await createMCPSession(userId);
-
-    // Get or create user in database
+    // Get or create user in database BEFORE creating session (fixes foreign key constraint)
     const userCheck = await turso.execute({ sql: 'SELECT * FROM users WHERE id = ?', args: [userId] });
 
-    if (userCheck.rows.length === 0 && userEmail) {
+    if (userCheck.rows.length === 0) {
+      const email = userEmail || `${userId}@user.local`;
       await turso.execute({
         sql: `INSERT INTO users (id, email, created_at, updated_at) VALUES (?, ?, ?, ?)`,
-        args: [userId, userEmail, Math.floor(Date.now() / 1000), Math.floor(Date.now() / 1000)]
+        args: [userId, email, Math.floor(Date.now() / 1000), Math.floor(Date.now() / 1000)]
       });
     }
+
+    const { createMCPSession } = await import('@/lib/mcp-server');
+    const sessionToken = await createMCPSession(userId);
 
     // Get user details for notification
     const userResult = await turso.execute({ sql: 'SELECT email FROM users WHERE id = ?', args: [userId] });

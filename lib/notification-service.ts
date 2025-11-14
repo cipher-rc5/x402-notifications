@@ -66,13 +66,15 @@ export async function canSendNotification(
 
     // Check if subscription expired
     const now = Math.floor(Date.now() / 1000);
-    if (subscription.expires_at < now) {
+    const expiresAt = Number(subscription.expires_at);
+    if (expiresAt < now) {
       return { allowed: false, reason: 'Subscription expired. Please renew.' };
     }
 
     // Check notification limit
-    const limit = subscription.notification_limit;
-    if (limit !== null && subscription.notifications_used >= limit) {
+    const limit = subscription.notification_limit !== null ? Number(subscription.notification_limit) : null;
+    const notificationsUsed = Number(subscription.notifications_used);
+    if (limit !== null && notificationsUsed >= limit) {
       return { allowed: false, reason: `Monthly notification limit (${limit}) reached. Upgrade or wait for reset.` };
     }
 

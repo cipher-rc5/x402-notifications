@@ -10,9 +10,13 @@ import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { type Notification, type Payment } from '@/lib/turso';
 import { Activity, Bell, Code2, DollarSign, Users } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+const FETCH_TIMEOUT_MS = 30000; // 30 second timeout for API calls
+
 export default function DashboardPage() {
+  const searchParams = useSearchParams();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [payments, setPayments] = useState<Payment[]>([]);
   const [loading, setLoading] = useState(true);
@@ -21,14 +25,31 @@ export default function DashboardPage() {
   const [showPricingSelector, setShowPricingSelector] = useState(false);
   const [pricingModel, setPricingModel] = useState<{ model: string, plan?: any } | null>(null);
 
-  const userId = 'test-user-1';
-  const userEmail = 'test@example.com';
+  const userId = searchParams.get('userId') || 'test-user-1';
+  const userEmail = searchParams.get('email') || 'test@example.com';
 
   useEffect(() => {
     console.log('Dashboard mounted, loading data...');
     loadData();
     loadPricingModel();
   }, []);
+
+  async function fetchWithTimeout(url: string, options: RequestInit = {}, timeoutMs = FETCH_TIMEOUT_MS) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+    try {
+      const response = await fetch(url, { ...options, signal: controller.signal });
+      clearTimeout(timeoutId);
+      return response;
+    } catch (error) {
+      clearTimeout(timeoutId);
+      if (error instanceof Error && error.name === 'AbortError') {
+        throw new Error(`Request timeout after ${timeoutMs}ms`);
+      }
+      throw error;
+    }
+  }
 
   async function loadData() {
     try {
@@ -37,7 +58,7 @@ export default function DashboardPage() {
       setError(null);
 
       console.log('Fetching notifications...');
-      const notifResponse = await fetch(`/api/notifications?userId=${userId}`);
+      const notifResponse = await fetchWithTimeout(`/api/notifications?userId=${userId}`);
       console.log('Notifications response status:', notifResponse.status);
 
       if (!notifResponse.ok) {
@@ -59,7 +80,7 @@ export default function DashboardPage() {
       }
 
       console.log('Fetching payments...');
-      const paymentResponse = await fetch(`/api/payments?userId=${userId}`);
+      const paymentResponse = await fetchWithTimeout(`/api/payments?userId=${userId}`);
       console.log('Payments response status:', paymentResponse.status);
 
       if (!paymentResponse.ok) {

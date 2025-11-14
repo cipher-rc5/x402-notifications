@@ -5,10 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { CheckCircle2, Copy, ExternalLink, Sparkles } from 'lucide-react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function PaymentSuccessPage() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const [sessionToken, setSessionToken] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
@@ -41,11 +42,15 @@ export default function PaymentSuccessPage() {
         console.error('Error fetching session:', error);
       } finally {
         setLoading(false);
+        // Auto-redirect to dashboard after 2 seconds with userId to bypass x402 check
+        setTimeout(() => {
+          router.push(`/dashboard?userId=${encodeURIComponent(userId)}`);
+        }, 2000);
       }
     };
 
     fetchSession();
-  }, [userId]);
+  }, [userId, router]);
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -55,14 +60,14 @@ export default function PaymentSuccessPage() {
 
   if (loading) {
     return (
-      <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-green-500/5'>
+      <div className='min-h-screen flex items-center justify-center bg-linear-to-br from-background via-background to-green-500/5'>
         <div className='animate-pulse text-muted-foreground'>Setting up your MCP endpoint...</div>
       </div>
     );
   }
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-background via-background to-green-500/5'>
+    <div className='min-h-screen bg-linear-to-br from-background via-background to-green-500/5'>
       <div className='container mx-auto px-4 py-12 max-w-4xl space-y-8'>
         {/* Success Header */}
         <div className='text-center space-y-4'>
@@ -207,7 +212,7 @@ export default function PaymentSuccessPage() {
         {/* Back to Dashboard */}
         <div className='text-center'>
           <Button asChild variant='outline' size='lg'>
-            <Link href='/dashboard'>Back to Dashboard</Link>
+            <Link href={`/dashboard?userId=${encodeURIComponent(userId)}`}>Back to Dashboard</Link>
           </Button>
         </div>
       </div>

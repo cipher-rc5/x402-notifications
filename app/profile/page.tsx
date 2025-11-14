@@ -14,7 +14,7 @@ import { siEthereum, siSolana } from 'simple-icons';
 export default function ProfilePage() {
   const [sessionToken, setSessionToken] = useState<string | null>(null);
   const [userId] = useState('test-user-1');
-  const [loading, setLoading] = useState(false);
+  const [setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [simulating, setSimulating] = useState(false);
   const router = useRouter();
